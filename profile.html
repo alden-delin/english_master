@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Master - Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        nav {
+            background-color: #283593;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        section#profile {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        section#profile h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #283593;
+        }
+
+        #user-details, #user-progress {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #user-details p, #user-progress p {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #e0e0e0;
+            font-size: 0.9em;
+        }
+
+        .user-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #283593;
+            margin-bottom: 15px;
+        }
+
+        .user-email {
+            color: #666;
+            font-style: italic;
+        }
+
+        .no-user-message {
+            color: #f44336;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* New CSS for progress display */
+        .progress-summary {
+            margin-bottom: 25px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .progress-details h3 {
+            color: #283593;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .progress-details ul {
+            list-style-type: none;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-details li {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        /* Add this new style for logout button */
+        #logout-link {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">English Master</div>
+        <div>
+            <a href="signin.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="profile.html">Profile</a>
+            <a href="index.html">Logout</a>
+        </div>
+    </nav>
+    <section id="profile">
+        <h2>User Profile</h2>
+        <div id="user-details">
+            <!-- User details will be inserted here by JavaScript -->
+        </div>
+        <h2>Learning Progress</h2>
+        <div id="user-progress">
+            <!-- User progress will be inserted here by JavaScript -->
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 English Master. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUserEmail = localStorage.getItem('currentUser');
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            const userData = users[currentUserEmail] || {};
+
+            const username = currentUserEmail ? currentUserEmail.split('@')[0] : 'User';
+
+            // Display user info
+            document.getElementById('user-details').innerHTML = `
+                <div class="user-name">${username}</div>
+                <div class="user-email">${currentUserEmail}</div>
+                <p>Joined: ${new Date(userData.joinDate).toLocaleDateString()}</p>
+                <p>Lessons Completed: ${userData.completedLessons?.length || 0}</p>
+            `;
+
+            // Display lesson progress only
+            const progressHTML = `
+                <div class="progress-summary">
+                    <h3>Lesson Progress</h3>
+                    ${generateProgressBars(userData.completedLessons || [])}
+                </div>
+                <div class="recent-activity">
+                    <h3>Recent Lessons</h3>
+                    <ul>
+                        ${generateRecentLessons(userData.completedLessons || [])}
+                    </ul>
+                </div>
+            `;
+            document.getElementById('user-progress').innerHTML = progressHTML;
+
+            // Logout functionality
+            document.getElementById('logout-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+        });
+
+        function generateProgressBars(completedLessons) {
+            const totals = { beginner: 10, intermediate: 7, advanced: 10 };
+            const counts = completedLessons.reduce((acc, lesson) => {
+                const level = lesson.split('-')[0];
+                acc[level] = (acc[level] || 0) + 1;
+                return acc;
+            }, {});
+
+            return Object.entries(totals).map(([level, total]) => {
+                const completed = counts[level] || 0;
+                const percent = Math.round((completed / total) * 100);
+                return `
+                    <div class="progress-item">
+                        <h4>${level.toUpperCase()}</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                        <span>${completed}/${total} (${percent}%)</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function generateRecentLessons(completedLessons) {
+            const recentLessons = completedLessons.slice(-3);
+            if (recentLessons.length === 0) return '<li>No recent lessons</li>';
+            
+            return recentLessons.map(lesson => {
+                const [level, number] = lesson.split('-');
+                return `<li>${level.charAt(0).toUpperCase() + level.slice(1)} Lesson ${number}</li>`;
+            }).join('');
+        }
+    </script>
+</body>
+</html>

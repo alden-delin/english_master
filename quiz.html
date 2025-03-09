@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Master - Quizzes</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        nav {
+            background-color: #283593;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        section#quiz {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        section#quiz h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        section#quiz p {
+            margin-bottom: 30px;
+        }
+
+        .quiz-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quiz-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: left;
+        }
+
+        .quiz-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-card h3::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            background-size: cover;
+        }
+
+        .quiz-card[data-level="beginner"] h3::before {
+            background-image: url('beginner-icon.png'); /* Replace with your beginner icon */
+        }
+
+        .quiz-card[data-level="intermediate"] h3::before {
+            background-image: url('intermediate-icon.png'); /* Replace with your intermediate icon */
+        }
+
+        .quiz-card[data-level="advanced"] h3::before {
+            background-image: url('advanced-icon.png'); /* Replace with your advanced icon */
+        }
+
+        .quiz-card p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .quiz-card button {
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .quiz-card[data-level="advanced"] button {
+            background-color: purple;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #e0e0e0;
+            font-size: 0.9em;
+        }
+
+        #quiz-container {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        /* Styles for quiz questions */
+        .question-container {
+            margin-bottom: 20px;
+            text-align: left;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        /* Results section */
+        #quiz-results {
+            display: none;
+            background-color: #e8f5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result-message {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .score-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view-profile-btn {
+            background-color: #283593;
+            color: white;
+        }
+
+        .try-again-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Login prompt */
+        #login-prompt {
+            display: none;
+            background-color: #ffebee;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        #login-prompt p {
+            margin-bottom: 15px;
+        }
+
+        #login-prompt button {
+            background-color: #283593;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+         /* Add to existing styles */
+        .quiz-status {
+            margin: 15px 0;
+            font-weight: bold;
+            color: #283593;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">English Master</div>
+        <div>
+            <a href="signin.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="profile.html">Profile</a>
+            <a href="index.html">Logout</a>
+        </div>
+    </nav>
+    
+    <!-- Login prompt for users who aren't logged in -->
+    <div id="login-prompt">
+        <p>You need to be logged in to take quizzes and track your progress.</p>
+        <button onclick="window.location.href='index.html'">Sign In</button>
+    </div>
+    
+    <section id="quiz">
+        <h2>English Quizzes</h2>
+        <p>Test your knowledge with our interactive quizzes</p>
+        <div class="quiz-container">
+            <div class="quiz-card" data-level="beginner">
+                <h3>Beginner Quiz</h3>
+                <p>Test your basic English knowledge with questions on simple grammar, vocabulary, and everyday phrases.</p>
+                <button onclick="checkLoginAndStartQuiz('beginner')">Start Beginner Quiz</button>
+            </div>
+            <div class="quiz-card" data-level="intermediate">
+                <h3>Intermediate Quiz</h3>
+                <p>Challenge yourself with questions on tenses, phrasal verbs, idioms, and more complex grammatical structures.</p>
+                <button onclick="checkLoginAndStartQuiz('intermediate')">Start Intermediate Quiz</button>
+            </div>
+            <div class="quiz-card" data-level="advanced">
+                <h3>Advanced Quiz</h3>
+                <p>Master complex English concepts with questions on advanced grammar, literary devices, nuanced expressions, and more.</p>
+                <button onclick="checkLoginAndStartQuiz('advanced')">Start Advanced Quiz</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Quiz questions container -->
+    <div id="quiz-container">
+        <h2 id="quiz-title"></h2>
+        <div id="quiz-questions"></div>
+        <button id="submit-quiz-btn" onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+    
+    <!-- Quiz results section -->
+    <div id="quiz-results">
+        <h2>Quiz Results</h2>
+        <div class="result-message">You've completed the quiz!</div>
+        <div class="score-display" id="score-display"></div>
+        <div id="feedback-message"></div>
+        <div class="action-buttons">
+            <button class="view-profile-btn" onclick="window.location.href='profile.html'">View Your Progress</button>
+            <button class="try-again-btn" onclick="resetQuiz()">Try Another Quiz</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 English Master. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Initialize current user
+        let currentUserEmail = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load current user from localStorage
+            currentUserEmail = localStorage.getItem('currentUser');
+            updateUIForAuthState();
+        });
+
+        function updateUIForAuthState() {
+            const isLoggedIn = currentUserEmail !== null;
+            document.getElementById('login-prompt').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('quiz').style.display = isLoggedIn ? 'block' : 'none';
+        }   
+        const questionBanks = {
+            beginner: [
+                {
+                    question: "Which is the correct plural of 'box'?",
+                    options: ["Boxs", "Boxes", "Boxen", "Boxies"],
+                    answer: 1
+                },
+                {
+                    question: "Choose the correct verb: She __ to school every day.",
+                    options: ["go", "goes", "going", "gone"],
+                    answer: 1
+                },
+                {
+                    question: "What is the past tense of 'eat'?",
+                    options: ["Eated", "Ate", "Eaten", "Eating"],
+                    answer: 1
+                },
+                {
+                    question: "Which is a correct greeting?",
+                    options: ["Good night", "Good morning", "Good sleep", "Good restaurant"],
+                    answer: 1
+                },
+                {
+                    question: "Complete the sentence: I __ a student.",
+                    options: ["am", "is", "are", "be"],
+                    answer: 0
+                },
+                {
+                    question: "Which is NOT a color?",
+                    options: ["Apple", "Red", "Blue", "Green"],
+                    answer: 0
+                },
+                {
+                    question: "Choose the correct spelling:",
+                    options: ["Recieve", "Receive", "Receeve", "Recive"],
+                    answer: 1
+                },
+                {
+                    question: "What is the opposite of 'hot'?",
+                    options: ["Cold", "Warm", "Spicy", "Sweet"],
+                    answer: 0
+                },
+                {
+                    question: "Which is a correct sentence?",
+                    options: ["I has a book", "I having a book", "I have a book", "I haves a book"],
+                    answer: 2
+                },
+                {
+                    question: "What is 7 in English?",
+                    options: ["Seven", "Eleven", "Seventeen", "Seventy"],
+                    answer: 0
+                }
+            ],
+            intermediate: [
+                {
+                    question: "Which is the correct past perfect: They __ finished eating when I arrived.",
+                    options: ["had", "have", "has", "having"],
+                    answer: 0
+                },
+                {
+                    question: "Choose the correct phrasal verb: Please __ the lights before leaving.",
+                    options: ["turn on", "turn off", "turn up", "turn down"],
+                    answer: 1
+                },
+                {
+                    question: "Which sentence is in passive voice?",
+                    options: [
+                        "The cat chased the mouse",
+                        "The mouse was chased by the cat",
+                        "Both the cat and mouse ran",
+                        "The chase was exciting"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Identify the correct tag question: You're coming, __?",
+                    options: ["aren't you", "are you", "isn't you", "don't you"],
+                    answer: 0
+                },
+                {
+                    question: "Which is a correct conditional sentence?",
+                    options: [
+                        "If I will go, I see him",
+                        "If I go, I will see him",
+                        "If I went, I will see him",
+                        "If I go, I see him"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Choose the correct idiom meaning: 'Piece of cake'",
+                    options: ["Something delicious", "Something easy", "Something broken", "Something expensive"],
+                    answer: 1
+                },
+                {
+                    question: "Which is the correct comparative form of 'big'?",
+                    options: ["Bigger", "More big", "Biggest", "Most big"],
+                    answer: 0
+                },
+                {
+                    question: "Identify the conjunction: I wanted to go, but I was tired.",
+                    options: ["I", "wanted", "but", "tired"],
+                    answer: 2
+                },
+                {
+                    question: "Which sentence uses 'their' correctly?",
+                    options: [
+                        "Their going to the park",
+                        "There house is beautiful",
+                        "They're car is new",
+                        "Their dog is barking"
+                    ],
+                    answer: 3
+                },
+                {
+                    question: "What is the synonym of 'happy'?",
+                    options: ["Joyful", "Angry", "Sad", "Tired"],
+                    answer: 0
+                }
+            ],
+            advanced: [
+                {
+                    question: "Identify the oxymoron:",
+                    options: ["Bitter sweet", "Crystal clear", "Open secret", "All of the above"],
+                    answer: 3
+                },
+                {
+                    question: "Which literary device is used in 'The stars danced playfully'?",
+                    options: ["Simile", "Metaphor", "Personification", "Hyperbole"],
+                    answer: 2
+                },
+                {
+                    question: "Choose the correct subjunctive form:",
+                    options: [
+                        "If I was you, I'd go",
+                        "If I were you, I'd go",
+                        "If I am you, I'd go",
+                        "If I being you, I'd go"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Identify the dangling modifier:",
+                    options: [
+                        "Running quickly, the bus was caught",
+                        "She ate the pizza with pepperoni",
+                        "The book that I read was interesting",
+                        "Having finished the assignment, the TV was turned on"
+                    ],
+                    answer: 3
+                },
+                {
+                    question: "Which sentence demonstrates zeugma?",
+                    options: [
+                        "She broke his car and his heart",
+                        "The sun smiled down on us",
+                        "I came, I saw, I conquered",
+                        "Peter Piper picked a peck"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "What is the plural of 'phenomenon'?",
+                    options: ["Phenomena", "Phenomenons", "Phenomenae", "Phenomeni"],
+                    answer: 0
+                },
+                {
+                    question: "Identify the syllepsis:",
+                    options: [
+                        "He lost his coat and his temper",
+                        "She sells seashells",
+                        "The thunder roared angrily",
+                        "Pretty ugly"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "Which sentence uses 'whom' correctly?",
+                    options: [
+                        "Whom wants to go?",
+                        "To whom did you give the book?",
+                        "Whom is responsible?",
+                        "I know whom did it"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "What is the meaning of 'sesquipedalian'?",
+                    options: [
+                        "Ancient measurement",
+                        "Long words",
+                        "Foot pain",
+                        "Geometric shape"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Identify the anaphora:",
+                    options: [
+                        "We shall fight on the beaches, we shall fight on the landing grounds...",
+                        "The world will little note, nor long remember what we say here",
+                        "Ask not what your country can do for you...",
+                        "Government of the people, by the people, for the people"
+                    ],
+                    answer: 0
+                }
+            ]
+        };
+        function checkLoginAndStartQuiz(level) {
+            if (!currentUserEmail) {
+                displayLoginPrompt('Please sign in to take quizzes.');
+                return;
+            }
+            startDynamicQuiz(level);
+        }
+
+        function startDynamicQuiz(level) {
+            const questions = shuffleArray([...questionBanks[level]]).slice(0, 10);
+            
+            sessionStorage.setItem('currentQuiz', JSON.stringify({
+                level: level,
+                questions: questions,
+                startTime: new Date().toISOString()
+            }));
+
+            displayQuizQuestions(questions);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayQuizQuestions(questions) {
+            const container = document.getElementById('quiz-questions');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const shuffledOptions = shuffleArray([...q.options]);
+                const questionHTML = `
+                    <div class="question-container">
+                        <div class="question">${index + 1}. ${q.question}</div>
+                        <div class="options">
+                            ${shuffledOptions.map((option, i) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${q.options.indexOf(option)}">
+                                    ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += questionHTML;
+            });
+
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('quiz-title').textContent = 
+                `${level.charAt(0).toUpperCase() + level.slice(1)} Quiz`;
+        }
+
+        function submitQuiz() {
+            const quizData = JSON.parse(sessionStorage.getItem('currentQuiz'));
+            if (!quizData) return;
+
+            const score = calculateScore(quizData.questions);
+            saveQuizResults(quizData.level, score, quizData.questions.length);
+            showQuizResults(score, quizData.questions.length);
+        }
+
+        function calculateScore(questions) {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && parseInt(selected.value) === q.answer) score++;
+            });
+            return score;
+        }
+
+        function saveQuizResults(level, score, total) {
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            const user = users[currentUserEmail] || {
+                email: currentUserEmail,
+                quizScores: [],
+                completedLessons: []
+            };
+            
+            user.quizScores.push({
+                level: level,
+                score: score,
+                total: total,
+                date: new Date().toISOString()
+            });
+            
+            users[currentUserEmail] = user;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        function showQuizResults(score, total) {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            const percentage = Math.round((score / total) * 100);
+            document.getElementById('score-display').textContent = `${score}/${total}`;
+            
+            const feedback = document.getElementById('feedback-message');
+            feedback.textContent = getFeedbackMessage(percentage);
+        }
+
+        function getFeedbackMessage(percentage) {
+            if (percentage >= 90) return 'Excellent work! You have mastered this level! 🎉';
+            if (percentage >= 70) return 'Great job! Solid understanding demonstrated! 👍';
+            if (percentage >= 50) return 'Good effort! Keep practicing to improve! 💪';
+            return 'Keep trying! Review the lessons and try again! 📚';
+        }
+
+        function resetQuiz() {
+            sessionStorage.removeItem('currentQuiz');
+            document.getElementById('quiz-results').style.display = 'none';
+            document.getElementById('quiz').style.display = 'block';
+            document.getElementById('quiz-container').style.display = 'none';
+        }
+
+        function displayLoginPrompt(message) {
+            const prompt = document.getElementById('login-prompt');
+            prompt.querySelector('p').textContent = message;
+            prompt.style.display = 'block';
+        }  
+    </script>
+</body>
+</html>

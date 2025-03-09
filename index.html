@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Master - Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        nav {
+            background-color: #283593;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        section#signin {
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        section#signin h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        section#signin h2::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            background-image: url('book-icon.png'); /* Replace with your book icon */
+            background-size: cover;
+        }
+
+        section#signin p {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        section#signin input[type="email"],
+        section#signin input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        section#signin input[type="email"] {
+            background-image: url('email-icon.png'); /* Replace with your email icon */
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            padding-left: 35px;
+        }
+
+        section#signin input[type="password"] {
+            background-image: url('password-icon.png'); /* Replace with your password icon */
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            padding-left: 35px;
+        }
+
+        section#signin button {
+            background-color: #283593;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        section#signin button:hover {
+            background-color: #1a237e;
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">English Master</div>
+        
+    </nav>
+    <section id="signin">
+        <h2>Sign in or Register</h2>
+        <p>Improve your English skills with our interactive lessons and quizzes</p>
+        <input type="email" id="email" placeholder="john@example.com">
+        <input type="password" id="password" placeholder="password">
+        <button onclick="signIn()">Sign in / Register</button>
+    </section>
+
+    <script>
+        // Update the signIn function
+        function signIn() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+        
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+        
+            let users = JSON.parse(localStorage.getItem('users')) || {};
+            
+            if (users[email]) {
+                if (users[email].password === password) {
+                    localStorage.setItem('currentUser', email);
+                    window.location.href = 'profile.html';
+                } else {
+                    alert('Invalid password');
+                }
+            } else {
+                users[email] = {
+                    email: email,
+                    password: password,
+                    username: email.split('@')[0],
+                    joinDate: new Date().toISOString(),
+                    completedLessons: [],
+                    quizScores: []
+                };
+                localStorage.setItem('users', JSON.stringify(users));
+                localStorage.setItem('currentUser', email);
+                alert('Welcome! Account created successfully.');
+                window.location.href = 'profile.html';
+            }
+        }
+        </script>
+</body>
+</html>

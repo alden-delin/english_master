@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Master - Lessons</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        nav {
+            background-color: #283593;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        section#lessons {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section#lessons h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        section#lessons p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-container button {
+            background-color: #e0e0e0;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter-container button.active {
+            background-color: #1976D2;
+            color: white;
+        }
+
+        .lesson-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .lesson {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 100%;
+        }
+
+        .lesson h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lesson h3 span {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .lesson p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .lesson button {
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .lesson button.completed {
+            background-color: #4CAF50;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #e0e0e0;
+            font-size: 0.9em;
+        }
+        /* Updated button styles */
+        .lesson button.completed {
+            background-color: #4CAF50 !important;
+        }
+        
+        .lesson button.incomplete {
+            background-color: #1976D2;
+        }
+
+        /* Filter button active state */
+        .filter-container button.active {
+            background-color: #283593;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">English Master</div>
+        <div>
+            <a href="signin.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="quiz.html">Quiz</a>
+            <a href="profile.html">Profile</a> <a href="index.html">Logout</a>
+        </div>
+    </nav>
+    <section id="lessons">
+        <h2>English Lessons</h2>
+        <p>Browse our collection of English lessons organized by difficulty level</p>
+        <div class="filter-container">
+            <button class="filter active" data-level="all">All Levels</button>
+            <button class="filter" data-level="beginner">Beginner</button>
+            <button class="filter" data-level="intermediate">Intermediate</button>
+            <button class="filter" data-level="advanced">Advanced</button>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 1 <span>19:31</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/UIcD4E1ojyc?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-1')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 2 <span>15:47</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/WeL_Ij6hjTk?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-2')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 3 <span>51:56</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://www.youtube.com/live/-Lxggh2lT8w?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-3')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 4 <span>38:57</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/hnqSCO1BCkM?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-4')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 5 <span>13:47</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/fgfdbRttsLY?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-5')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 6 <span>24:40</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/L6ihe-4oO60?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-6')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 7 <span>12:56</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/o5iOkKdz2wA?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-7')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 8 <span>14:30</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/lcz1YxVTgp0?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-8')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 9 <span>18:45</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/TEx20aP1i3M?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-9')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="beginner">
+                <h3>Grammar Course Class 10 <span>11:22</span></h3>
+                <p>Master the basics of English grammar with our comprehensive modules.</p>
+                <a href="https://youtu.be/XKaacQcUHug?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('beginner-10')">Mark Completed</button>
+            </div>
+
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 1 <span>9:44</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/Y6CVBPgDBxE?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-1')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 2 <span>4:16</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/IOOwJLw7iXY?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-2')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 3 <span>3:53</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/sVMRPyx8eUU?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-3')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 4 <span>9:16</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/QEDFW6-iwSs?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-4')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 5 <span>6:23</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/ST6puxUmJss?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-5')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 6 <span>6:43</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/wVGhKbBaMgc?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-6')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="intermediate">
+                <h3>Vocabulary Course Class 7 <span>6:04</span></h3>
+                <p>Expand your vocabulary with daily exercises and word challenges.</p>
+                <a href="https://youtu.be/wVGhKbBaMgc?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('intermediate-7')">Mark Completed</button>
+            </div>
+
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 1 <span>33:58</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/D2zJEHdjVjM?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-1')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 2 <span>15:09</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/YahsooPPICg?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-2')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 3 <span>25:06</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/-0RqTVagSfU?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-3')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 4 <span>9:51</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/XHC_BFpVpzU?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-4')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 5 <span>8:25</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/_ss1bMEei8Q?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-5')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 6 <span>21:39</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/r3VdUm1N62M?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-6')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 7 <span>12:27</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/eQ4pSIUvLMg?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-7')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 8 <span>13:15</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/JV1n4w9Iu0Y?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-8')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 9 <span>10:53</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/kxF4bkb5Q8U?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-9')">Mark Completed</button>
+            </div>
+            <div class="lesson" data-level="advanced">
+                <h3>Advanced Course Class 10 <span>9:16</span></h3>
+                <p>Improve your accent and pronunciation with audio and video lessons.</p>
+                <a href="https://youtu.be/QEDFW6-iwSs?feature=shared" target="_blank" class="lesson-link">Watch Video</a>
+                <button onclick="markCompleted('advanced-10')">Mark Completed</button>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <p>© 2025 English Master. All rights reserved.</p>
+    </footer>
+    <script>
+        // Replace the existing script with this updated version
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get current user data
+            const currentUserEmail = localStorage.getItem('currentUser');
+            const users = JSON.parse(localStorage.getItem('users')) || {};
+            const userData = users[currentUserEmail] || {
+                completedLessons: [],
+                quizScores: []
+            };
+        
+                // Initialize filter buttons
+            document.querySelectorAll('.filter').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    const level = this.dataset.level;
+                    
+                    document.querySelectorAll('.lesson').forEach(lesson => {
+                        lesson.style.display = (level === 'all' || lesson.dataset.level === level) ? 
+                            'block' : 'none';
+                    });
+                });
+            });
+
+            // Initialize lesson buttons
+            document.querySelectorAll('.lesson button').forEach(button => {
+                const lessonId = button.getAttribute('onclick').match(/'([^']+)'/)[1];
+                updateButtonState(button, userData.completedLessons.includes(lessonId));
+            });
+
+            // Update button state function
+            function updateButtonState(button, isCompleted) {
+                button.textContent = isCompleted ? 'Completed' : 'Mark Completed';
+                button.classList.toggle('completed', isCompleted);
+                button.classList.toggle('incomplete', !isCompleted);
+            }
+
+            // Toggle completion function
+            window.markCompleted = function(lessonId) {
+                if (!currentUserEmail) {
+                    alert('Please sign in to track your progress.');
+                    return;
+                }
+
+                const users = JSON.parse(localStorage.getItem('users')) || {};
+                const user = users[currentUserEmail] || { completedLessons: [] };
+                const index = user.completedLessons.indexOf(lessonId);
+
+                if (index === -1) {
+                    user.completedLessons.push(lessonId);
+                } else {
+                    user.completedLessons.splice(index, 1);
+                }
+
+                users[currentUserEmail] = user;
+                localStorage.setItem('users', JSON.stringify(users));
+                
+                const button = document.querySelector(`button[onclick*='${lessonId}']`);
+                updateButtonState(button, index === -1);
+                updateProgressStats();
+            };
+        });
+        </script>
+</body>
+</html>
